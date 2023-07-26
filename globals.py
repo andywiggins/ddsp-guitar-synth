@@ -21,20 +21,19 @@ GUITAR_STRING_LETTERS = ("E", "A", "D", "G", "B", "e")
 EPS = 1e-7
 
 ####### Training #######
-BATCH_SIZE = 6 # standard: 16, premium: 64, premium-3sec-items: 32
-NUM_WORKERS = 4 # standard: 4, premium: 8 # use multiple threads to ready the next batch in parallel
+BATCH_SIZE = 6 
+NUM_WORKERS = 4 
 TRAIN_SHUFFLE = True
 OPTIMIZER = torch.optim.Adam
-LEARNING_RATE = 0.001 # default: 0.001
-NUM_EPOCHS = 20000 # default 3000
-EPOCHS_PER_CHECKPOINT = 20 # default: 1
-EPOCHS_PER_CHECKPOINT_RETAINED = 100 # these checkpoints aren't deleted # default: 20
-LEARNING_RATE_STEP_SIZE = 667 # in epochs # default: 667 ... (probably could change)
-LEARNING_RATE_DECAY = 1.0 # default: 0.98
+LEARNING_RATE = 0.001 
+NUM_EPOCHS = 20000
+EPOCHS_PER_CHECKPOINT = 20
+EPOCHS_PER_CHECKPOINT_RETAINED = 100 # these checkpoints aren't deleted
+LEARNING_RATE_STEP_SIZE = 300 # in epochs
+LEARNING_RATE_DECAY = 1.0 # 1.0 = no decay
 
-###### guitarist-net Cloud Storage Path ######
-GUITARIST_NET_STORAGE_PATH = "/content/drive/MyDrive/Research/guitarist-net-storage/" # for wiggins@excitecenter.org
-# GUITARIST_NET_STORAGE_PATH = "/content/drive/MyDrive/Andy/guitarist-net-storage/" # for colab@excitecenter.org 
+###### Storage Path ######
+GUITARIST_NET_STORAGE_PATH = ""
 
 ####### GuitarSet Original Settings #######
 GSET_PATH = GUITARIST_NET_STORAGE_PATH + "data-source/GuitarSet"
@@ -55,10 +54,6 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DEFAULT_TORCH_DTYPE = torch.float32
 DEFAULT_NP_DTYPE = np.float32
 
-
-####### Single String Dataloader #######
-USE_SWEETCOCOA_LOUDNESS_EXTRACTOR = False
-
 ####### DDSP Synths#######
 NUM_OSCILLATORS = 101
 NUM_FILTER_COEFFICIENTS = 65
@@ -76,13 +71,10 @@ PER_STRING_INHARM_BETA_INIT = [ 1.07e-4,
 ]
 FREEZE_INHARM_PARAMS = True
 DDSP_MONO_SYNTH_USE_REVERB = True
-USE_SWEETCOCOA_HARM_OSC = False
-USE_SWEETCOCOA_FILTERED_NOISE = False
 REVERB_IR_LENGTH = SR # 1 second, in samples
 
 ####### DDSP DECODER #######
 ## MLP ##
-USE_SWEETCOCOA_DDSP_DECODER = False
 MLP_NUM_UNITS = 512 # nodes per layer
 MLP_NUM_LAYERS = 3
 MLP_ACTIVATION = torch.nn.LeakyReLU
@@ -99,43 +91,12 @@ USE_REGULARIZATION_LOSS = False
 REGULARIZATION_LOSS_ORDER = 1 # 1 for L1, 2 for L2, etc.
 REGULARIZATION_LOSS_WEIGHT = 0.01 # default: 0.01
 
-
-####### Synth Improvement #######
-IMPROVEMENT_LAYERS_HIDDEN_SIZE = 512
-IMPROVEMENT_LAYERS_NUM_LAYERS = 3
-
 ####### Time Zone #######
+# your time zone offset here
 TIME_ZONE_HOURS = -4
 
 ####### Training Evaluator #######
 ITEMS_PER_CHECKPOINT_EVAL = 10 # must be less than batch size
-DDSP_MONO_SYNTH_EVAL_DICT = {   'training_loss_plot' : False,
-                                'losses_plot' : True,
-                                'audio' : True,
-                                'harmonic_audio' : True,
-                                'noise_audio' : True,
-                                'reverb_audio' : DDSP_MONO_SYNTH_USE_REVERB
-                            }
-
-####### DDSP HEX SYNTH #######
-DDSP_HEX_SYNTH_USE_REVERB = True  # at the end on the overall audio
-DDSP_HEX_SYNTH_EVAL_DICT = {   'training_loss_plot' : False,
-                                'losses_plot' : True,
-                                'audio' : True,
-                                'harmonic_audio' : False,
-                                'noise_audio' : False,
-                                'reverb_audio' : DDSP_MONO_SYNTH_USE_REVERB
-                            }
-DDSP_HEX_SYNTH_TARGET_AUDIO = "mic_audio"
-HEX_SYNTH_LOAD_MONO_SYNTH_WEIGHTS = True
-HEX_MONO_SYNTH_WEIGHT_PATHS = { 'E' : "/content/drive/MyDrive/Research/guitarist-net-storage/output/2022-09-13 02:28PM DDSP Mono Synth : E string/checkpoints/1825 epochs/model_checkpoint.pt",
-                                'A' : "/content/drive/MyDrive/Research/guitarist-net-storage/output/2022-09-12 12:18PM DDSP Mono Synth : A string/checkpoints/1225 epochs/model_checkpoint.pt",
-                                'D' : "/content/drive/MyDrive/Research/guitarist-net-storage/output/2022-09-02 06:10PM DDSP Mono Synth : D string/checkpoints/2675 epochs/model_checkpoint.pt",
-                                'G' : "/content/drive/MyDrive/Research/guitarist-net-storage/output/2022-09-02 12:19AM DDSP Mono Synth : G string/checkpoints/1675 epochs/model_checkpoint.pt",
-                                'B' : "/content/drive/MyDrive/Research/guitarist-net-storage/output/2022-09-01 06:27PM DDSP Mono Synth : B string/checkpoints/900 epochs/model_checkpoint.pt",
-                                'e' : "/content/drive/MyDrive/Research/guitarist-net-storage/output/2022-09-01 05:32PM DDSP Mono Synth : e string/checkpoints/2500 epochs/model_checkpoint.pt",
-                            }
-
 
 ####### GuitarSet MIDI-like dataset #######
 # note: the following ranges are estimated based on loudness only at time of onset

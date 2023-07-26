@@ -1,3 +1,10 @@
+torch
+librosa
+numpy
+scipy
+matplotlib
+IPython
+tqdm
 mirdata
 crepe
 ipdb

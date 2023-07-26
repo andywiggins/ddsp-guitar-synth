@@ -1,6 +1,4 @@
-# naive synth from old version of GuitaristNet
-# the synthesis part of GuitaristNet, for now taking the naive 1D conv of single notes approach as in DrummerNet
-# edited locally
+# naive synthesis approach
 
 import torch
 import torch.nn as nn

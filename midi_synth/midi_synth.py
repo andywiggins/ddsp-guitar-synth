@@ -8,8 +8,6 @@ from ddsp.filtered_noise import FilteredNoise
 from ddsp.trainable_reverb import TrainableReverb
 from ddsp.multi_scale_spectral_loss import multi_scale_spectral_loss
 from midi_synth.midi_util import midi_to_hz
-from ddsp.sweetcocoa.sweetcocoa_harmonic import SweetCocoaHarmonicOscillator
-from ddsp.sweetcocoa.sweetcocoa_filtered_noise import SweetCocoaFilteredNoise
 from midi_synth.context_network import ContextNetwork
 from midi_synth.regularization_loss import regularization_loss
 import torch.nn as nn
@@ -163,17 +161,9 @@ class MidiSynth(nn.Module):
                                     learn_pitch_adjustment=learn_pitch_adjustment)
 
         ### test with sweetcocoa code to see if there's a glitch in my ddsp components
-        if USE_SWEETCOCOA_HARM_OSC:
-            self.harmonic_oscillator = SweetCocoaHarmonicOscillator(sr=sr, frame_length=hop_length)
-            print("Using sweetcocoa harmonic oscillator.")
-        else:
-            self.harmonic_oscillator = HarmonicOscillator(sr=sr, hop_length=hop_length, inharmonicity=INHARMONICITY)
+        self.harmonic_oscillator = HarmonicOscillator(sr=sr, hop_length=hop_length, inharmonicity=INHARMONICITY)
 
-        if USE_SWEETCOCOA_FILTERED_NOISE:
-            self.filtered_noise = SweetCocoaFilteredNoise(frame_length=hop_length)
-            print("Using sweetcocoa filtered noise.")
-        else:
-            self.filtered_noise = FilteredNoise(hop_length=hop_length)
+        self.filtered_noise = FilteredNoise(hop_length=hop_length)
         
         self.reverb = TrainableReverb(reverb_length=reverb_length)
 
