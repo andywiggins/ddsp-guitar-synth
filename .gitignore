@@ -1,0 +1,8 @@
+**/.DS_Store
+__pycache__/
+*.npz
+*.gslides
+out/7_7/model_100ep
+.tmp.drivedownload/*
+**/Icon
+*/Icon
